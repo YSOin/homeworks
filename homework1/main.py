@@ -24,6 +24,7 @@ class LFUCache:
         self.cache.pop(min(self.counter))
 
     def __call__(self, func):
+        @functools.wraps(func)
         def wrapper(*args, **kwargs):
             cache_key = (args, tuple(kwargs.items()))
             self.update_counter(cache_key)
@@ -40,6 +41,7 @@ class LFUCache:
 
 def cache(max_limit=10):
     def caching_decorator(fn):
+        @functools.wraps(fn)
         def decorated_fn(*args ,**kwargs):
             cache_key = (args, tuple(kwargs.items()))
             cache = dict()
@@ -75,8 +77,8 @@ def memory_usage(f):
 
 
 
-# @LFUCache(max_limit=13)
-@cache(max_limit=12)
+@LFUCache(max_limit=13)
+# @cache(max_limit=12)
 @memory_usage
 def some_function(url, first_n=100):
     """Fetch a given url"""
