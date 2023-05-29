@@ -11,9 +11,8 @@ app = Flask(__name__)
 
 @app.route("/generate_password")
 def hello_world():
-    generate_pass = ''.join([random.choice(
-                        string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation)
-                        for n in range(random.randint(10, 20))])
+    generate_pass = ''.join(random.choices(
+                        string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation, k=random.randint(10, 20)))
     return f"<p>{generate_pass}</p>"
 
 
